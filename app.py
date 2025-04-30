@@ -1,8 +1,4 @@
 ## Imports ##
-
-# System Path #
-import os, sys, inspect
-
 # Plotly #
 import plotly.graph_objects as go
 import plotly.express as px
@@ -13,17 +9,11 @@ from dash import dcc, html, Input, Output, ctx
 
 # Helper Functions #
 from plots.interactiveMap import hp_interactive_darkmatter
-from utils.query import filter_airport_df, filter_hp_df, filter_route_df, get_legend_items
+from utils.query import filter_airport_df, filter_hp_df, filter_route_df, get_legend_items, transform_year
 from utils.dataLoader import load_all_data
 
 ## Load Data and Define Holidays
-(
-    hp_df,
-    route_df,
-    airport_df,
-    flight_intersections,
-    airport_intersections
-) = load_all_data()
+hp_df, route_df, airport_df = load_all_data()
 
 holidays = [
     {"label": "New Year's Day", "value": "1000-1-1"},
@@ -250,9 +240,9 @@ def update_figure(state, event_type, apparition_type, year_range, year_toggle, h
 
     # Filter Data
     filtered_hp_df = filter_hp_df(hp_df, state, event_type, apparition_type, year_range, holiday)
-    filtered_route_df = filter_route_df(filtered_hp_df, route_df, flight_intersections)
-    filtered_airport_df = filter_airport_df(filtered_hp_df, airport_df, flight_intersections, airport_intersections, airport_types)
-
+    filtered_route_df = filter_route_df(filtered_hp_df, route_df)
+    filtered_airport_df = filter_airport_df(filtered_hp_df, airport_df, airport_types)
+    filtered_hp_df = filtered_hp_df.astype(str)
 
     return hp_interactive_darkmatter(filtered_hp_df, filtered_route_df, filtered_airport_df, coloring, additional_tags, airport_visibility)
 

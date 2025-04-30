@@ -78,61 +78,35 @@ def filter_hp_df(
         filtered_hp_df = filtered_hp_df[filtered_hp_df['Haunted_Places_Date'].apply(lambda x: any([in_date_range(x, h, h) for h in holiday]))]
     
     filtered_hp_df['Haunted_Places_Date'] = filtered_hp_df['Haunted_Places_Date'].apply(lambda x: [convert_date_str(y) for y in x])
-    filtered_hp_df = filtered_hp_df.astype(str)
 
     return filtered_hp_df
 # Airports Query
-def filter_airport_df(
-    filtered_hp_df,
-    airport_df,
-    flight_intersections,
-    airport_intersections,
-    airport_types : list = []):
+
+def filter_airport_df(filtered_hp_df, airport_df, airport_types : list = []):
+    '''
+    Extracts airports from 'airport_df' that intersect with queried 'filtered_hp_df' and have type in 'airport_types'. 
+    Extracted airports used in final visualization.
+    '''
 
     # if airport_types not specified, use all types
     if 'all' in airport_types:
         airport_types = airport_df['Type'].unique().tolist()
-    
-    
-    filtered_airport_df = airport_df[airport_df['Type'].isin(airport_types)].copy()
 
-    haunted_ids = filtered_hp_df['Haunted_Places_Id'].tolist()
+    # fitler out all airport ids used by haunted places
+    flattened_airports = list(set([x for y in filtered_hp_df['Intersecting_Airport_Ids'].values for x in y]))
+    filtered_airport_df = airport_df.loc[flattened_airports].copy()
 
-    filtered_flight_intersections = {k: v['Routes'] for k, v in flight_intersections.items() if k in haunted_ids}
-    filtered_airport_intersections = {k: v['Airports'] for k, v in airport_intersections.items() if k in haunted_ids}
+    # filter out airports by 'type' arg
+    filtered_airport_df = filtered_airport_df[filtered_airport_df['Type'].isin(airport_types)].copy()
 
-    relevant_iata_codes = set()
-    relevant_airports = set()
-
-    for _, v in filtered_flight_intersections.items():
-        relevant_iata_codes.update(
-            chain(
-            (route['Dest_Airport'] for route in v),
-            (route['Source_Airport'] for route in v)
-            )
-        )
-        
-    for _, v in filtered_airport_intersections.items():
-        relevant_airports.update(airport['Airport_ID'] for airport in v)
-
-    filtered_airport_df = filtered_airport_df[filtered_airport_df['Id'].isin(relevant_airports) | filtered_airport_df['Iata_Code'].isin(relevant_iata_codes)]
-    
     return filtered_airport_df
 # Routes Query
-def filter_route_df(
-    filtered_hp_df, 
-    route_df, 
-    flight_intersections):
-
-    haunted_ids = filtered_hp_df['Haunted_Places_Id'].tolist()
-
-    filtered_flight_intersections = {k: v['Routes'] for k, v in flight_intersections.items() if k in haunted_ids}
-
-    relevant_routes = set()
-
-    for _, v in filtered_flight_intersections.items():
-        relevant_routes.update(route['Route_ID'] for route in v)
-
-    filtered_route_df = route_df.loc[list(relevant_routes)]
+def filter_route_df(filtered_hp_df, route_df):
+    '''
+    extracts used routes from 'route_df' from queried 'filtered_hp_df'. Extracted routes used in final visualization
+    '''
+    # filter out all route ids used by haunted places
+    flattened_routes = list(set([x for y in filtered_hp_df['Intersecting_Route_Ids'].values for x in y]))
+    filtered_route_df = route_df.loc[flattened_routes].copy()
 
     return filtered_route_df

@@ -1,2 +1,9 @@
-/data/
+/data/*
 cloneCommands.txt
+
+# reduced datasets for web
+!/data/hp_df.tab
+!/data/route_df.tab
+!/data/airport_df.tab
+
+!data/route_df.tab
