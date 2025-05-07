@@ -13,16 +13,10 @@ from core import callback_close_drawer   # The import defines the callback, no n
 from core import callback_open_drawer
 from core import callback_lightswitch
 from core import callback_sidebar
-# from core.callback_sidebar import register_callbacks
 
-import pandas as pd
-
-# -- For dbc.themes... details see https://bootswatch.com/
-# -- For dbc icons: https://dash-bootstrap-components.opensource.faculty.ai/docs/icons/
-# -- dbc.min.css provides additional styles for Dash components. See https://hellodash.pythonanywhere.com/
 app = Dash(
     __name__, 
-    use_pages=True,    # A multi-page app: https://dash.plotly.com/urls
+    use_pages=True,   
     suppress_callback_exceptions=True,
     external_stylesheets=[
                     dbc.themes.DARKLY,
@@ -46,13 +40,12 @@ server = app.server
 app.layout = dbc.Container(corelayout.createlayout(
     headercontents=header.header(),
     leftsidebarcontents= None,
-    #leftsidebarcontents= leftsidebar.side_navbar(hp_df = hp_df),
     popupcontents= "",
-    popuptitle= None, #leftsidebar.popup_title(),
-    rightsidebarcontents= None, #rightsidebar.aside(),
+    popuptitle= None, 
+    rightsidebarcontents= None, 
     footercontents=None
 ))
 
 
-if __name__ == "__main__":
-    app.run(debug=True, dev_tools_hot_reload = True,host='0.0.0.0', port=8050)  
+# if __name__ == "__main__":
+#     app.run(debug=True, dev_tools_hot_reload = True,host='0.0.0.0', port=8050)  
