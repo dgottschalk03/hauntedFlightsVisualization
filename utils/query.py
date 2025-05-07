@@ -74,9 +74,11 @@ def filter_hp_df(hp_df, state=None, event_type=None, apparition_type=None, haunt
     if holiday:
         holiday = list(map(parse_date,holiday))
         filtered_hp_df = filtered_hp_df[filtered_hp_df['Haunted_Places_Date'].apply(lambda x: any([in_date_range(x, h, h) for h in holiday]))]
-    
-    filtered_hp_df['Haunted_Places_Date'] = filtered_hp_df['Haunted_Places_Date'].apply(lambda x: [convert_date_str(y) for y in x])
-
+    try: 
+        filtered_hp_df['Haunted_Places_Date'] = filtered_hp_df['Haunted_Places_Date'].apply(lambda x: [convert_date_str(y) for y in x])
+    # We did not find anything matching full query. Return original df
+    except KeyError:
+        return hp_df.iloc[0:0] 
     return filtered_hp_df
 # Airports Query
 def filter_airport_df(filtered_hp_df, airport_df, airport_types : list = []):

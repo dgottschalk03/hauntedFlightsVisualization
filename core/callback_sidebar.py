@@ -1,9 +1,40 @@
 import dash
 from dash import Input, Output, State, callback, ctx
 from dash.dependencies import MATCH
+import json
 
 from plots.interactiveMap import hp_interactive_darkmatter
 from utils.query import filter_airport_df, filter_hp_df, filter_route_df, get_legend_items
+
+def extract_additional_tags(state_dict, target_type="attribute-filter-dropdown"):
+    """
+    Extracts 'subtype' values from pattern-matching keys in a Dash state or input dictionary.
+
+    Args:
+        state_dict (dict): Typically ctx.states or ctx.inputs.
+        target_type (str): The 'type' to match (default: 'attribute-filter-dropdown').
+
+    Returns:
+        List[str]: A list of subtype values.
+    """
+    excluded_keys = ['start-year', 'start-month', 'start-day', 'end-year', 'end-month', 'end-day','coloring-toggle', 'airport-type-checklist', 'airport-visibility-checklist', 'holiday-dropdown']
+    res = {}
+
+    for k, v in state_dict.items():
+        key_part = k.split('.')[0]  
+        try:
+            parsed = json.loads(key_part)
+            if (
+                isinstance(parsed, dict)
+                and parsed.get('type') == target_type
+                and 'subtype' in parsed
+                and v not in (None, [])
+            ):
+                res[parsed['subtype']] = v
+        except json.JSONDecodeError:
+            continue  # Skip non-JSON keys
+    res = {s: v for s, v in res.items() if s not in excluded_keys}
+    return res
 
 # Sidebar Hider Callback
 @callback(
@@ -114,9 +145,9 @@ def register_map_callbacks(df, rt_df, ap_df):
         s_year, s_month, s_date, e_year, e_month, e_date,
         s_include, e_include, airport_types, airport_visibility
     ):
-
-        triggered_inputs = {k.split('.')[0]: v for k, v in ctx.states.items() if ctx.states[k] is not None and ctx.states[k] != []}
-        additional_tags = [arg for arg, v in triggered_inputs.items() if arg not in  ['start-year', 'start-month', 'start-day', 'end-year', 'end-month', 'end-day','coloring-toggle', 'airport-type-checklist', 'airport-visibility-checklist'] and v is not None]
+        
+        triggered_inputs = extract_additional_tags(ctx.states)        
+        additional_tags = list(triggered_inputs.keys())
 
         # if filtering by start date
         if s_include:
@@ -132,7 +163,7 @@ def register_map_callbacks(df, rt_df, ap_df):
         date_range = [start_date, end_date]
 
         # define coloring
-        if coloring_toggle in list(additional_tags): 
+        if coloring_toggle in list(triggered_inputs.keys()): 
             coloring = {coloring_toggle: triggered_inputs[coloring_toggle]} # if coloring toggle is one of the filtered attributes, set coloring by attribute
         else:
             coloring = {coloring_toggle: get_legend_items(hp_df, coloring_toggle)}  # otherwise get all possible values for that attribute

@@ -5,7 +5,6 @@
 '''
 from dash import Dash
 import dash_bootstrap_components as dbc
-import gunicorn                         # Necessary for Heroku?
 from core import corelayout
 from defaultlayouts import header, leftsidebar, rightsidebar, footer
 
@@ -47,5 +46,5 @@ app.layout = dbc.Container(corelayout.createlayout(
 ))
 
 
-# if __name__ == "__main__":
-#     app.run(debug=True, dev_tools_hot_reload = True,host='0.0.0.0', port=8050)  
+if __name__ == "__main__":
+    app.run(debug=True, dev_tools_hot_reload = True,host='0.0.0.0', port=8050)  
