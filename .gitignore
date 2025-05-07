@@ -1,9 +1,16 @@
+# Raw Data not pushed to git
 /data/*
-cloneCommands.txt
+
+# Python Cache
+/utils/__pycache__/
+/plots/__pycache__/
+/plots/__pycache__/
+*.pyc
+
+# scratch work notebook
+sw.ipynb
 
 # reduced datasets for web
 !/data/hp_df.tab
 !/data/route_df.tab
 !/data/airport_df.tab
-
-!data/route_df.tab

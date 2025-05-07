@@ -101,7 +101,7 @@ hp_cols = ['City', 'Description', 'State', 'Location', 'Longitude' ,'Latitude', 
 hp_df_out = hp_df[hp_cols].copy()
 
 # Format description textbox for web
-hp_df_out['Description'].apply(
+hp_df_out['Description'] = hp_df_out['Description'].apply(
         lambda x: "<br>".join(textwrap.wrap(x, width=50))
     )
 

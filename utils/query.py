@@ -58,9 +58,7 @@ def query_df(query_keys, s):
     query_regex = "|".join(map(re.escape, query_keys))
     return bool(re.search(query_regex, s))
 # Haunted Places Query
-def filter_hp_df(
-    hp_df,
-    state=None, event_type=None, apparition_type=None, haunt_date_range=None, holiday = None):
+def filter_hp_df(hp_df, state=None, event_type=None, apparition_type=None, haunt_date_range=None, holiday = None):
     
     filtered_hp_df = hp_df.copy()
 
@@ -81,7 +79,6 @@ def filter_hp_df(
 
     return filtered_hp_df
 # Airports Query
-
 def filter_airport_df(filtered_hp_df, airport_df, airport_types : list = []):
     '''
     Extracts airports from 'airport_df' that intersect with queried 'filtered_hp_df' and have type in 'airport_types'. 

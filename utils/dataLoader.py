@@ -3,7 +3,9 @@ from utils.query import parse_date
 
 # Load Data
 def load_all_data():
-    
+    '''
+    Load all datasets for plotly pages. Meant to be run from scripts in 'pages' directory.
+    '''
     # Haunted Places 
     hp_df = pd.read_csv("./data/hp_df.tab", sep="\t")
     

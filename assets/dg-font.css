@@ -5,6 +5,65 @@
     font-style: normal;
 }
 
-body {
+body, h1, h2, h3, .navbar, .navbar-brand, .nav-link .dbc, .dash-table-container, .tab-content {
     font-family: 'Mystery Quest', cursive;
 }
+
+h1, h2 {
+    color: #F25C05 !important; 
+}
+
+h3, h4 {
+    color: #F5B234 !important; 
+}
+
+.navbar {
+    padding-top: 0.25rem !important;
+    padding-bottom: 0.25rem !important;
+    min-height: 50px !important; /* Default is ~70px */
+    background-color: #F25C05 !important;
+}
+
+.navbar-brand {
+    font-size: 20px !important; /* Make brand text smaller */
+}
+
+.nav-link {
+    font-size: 16px !important; /* Nav link text size */
+    padding-top: 0.25rem !important;
+    padding-bottom: 0.25rem !important;
+}
+
+.custom-tab {
+    font-size: 14px !important;  
+    padding: 5px 10px !important; 
+    height: 40px !important; 
+}
+
+
+.tab--selected {
+    background-color: #F25C05 !important;
+    color: white !important;
+    font-weight: bold;
+}
+
+.dsci550_a3-1-hex { color: #943FC2; }
+.dsci550_a3-2-hex { color: #0ABF04; }
+.dsci550_a3-3-hex { color: #F20707; }
+.dsci550_a3-4-hex { color: #373BF0; }
+.dsci550_a3-5-hex { color: #F4DB20; }
+.dsci550_a3-6-hex { color: #3C2D73; }
+.dsci550_a3-7-hex { color: #730303; }
+.dsci550_a3-8-hex { color: #4E7317; }
+.dsci550_a3-9-hex { color: #FF8EFF; }
+.dsci550_a3-10-hex { color: #44AFF2; }
+.dsci550_a3-11-hex { color: #8ED943; }
+.dsci550_a3-12-hex { color: #026873; }
+.dsci550_a3-13-hex { color: #012840; }
+.dsci550_a3-14-hex { color: #C2B35B; }
+.dsci550_a3-15-hex { color: #04D9B2; }
+.dsci550_a3-16-hex { color: #260401; }
+.dsci550_a3-17-hex { color: #7E84F2; }
+.dsci550_a3-18-hex { color: #BF3604; }
+.dsci550_a3-19-hex { color: #F5B234; }
+.dsci550_a3-20-hex { color: #0D0D0D; }
