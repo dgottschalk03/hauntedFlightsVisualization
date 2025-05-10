@@ -123,7 +123,6 @@ body[data-bs-theme="dark"] {
   font-family: 'Mystery Quest', cursive !important;
   background-color: #F5B234 !important;
   border-color: #f5a834 !important;
-  color: #000000 !important;
 }
 
 .btn-primary:hover {
@@ -135,7 +134,6 @@ body[data-bs-theme="dark"] {
 /* label for checkboxes */
 .form-check-label{
   font-family: 'Mystery Quest', cursive !important;
-  color: #000000 !important;
 }
 
 /* Toggle Switch Glow and Color */

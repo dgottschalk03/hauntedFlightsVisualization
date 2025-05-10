@@ -24,7 +24,7 @@ app = Dash(
                     "https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css",
                     'https://cdn.jsdelivr.net/gh/AnnMarieW/dash-bootstrap-templates/dbc.min.css',
     ],
-    # Starts page in dark mode
+    # Start page in dark mode
     external_scripts=[
         {
             "src": "",

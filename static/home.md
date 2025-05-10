@@ -16,4 +16,3 @@ This tool visualizes haunted places around the U.S. with nearby airports and com
 - What **apparition type** should you be wary of during your flight?
 - What is the most haunted flight in america? **_(spoiler, its LAX->LAS)_**
 - Are the **flying objects** a bird, a plane, or an actual <span class="toxic-green">UFO</span>?
-

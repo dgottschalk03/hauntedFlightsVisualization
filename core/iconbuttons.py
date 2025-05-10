@@ -15,6 +15,6 @@ def lightswitch():
         className="bi bi-brightness-high fs-3 me-3",
         id="core-lightswitch",
         title="Switch light/dark theme",
-        n_clicks=1
+        n_clicks=0
     )   
     return iconlink
