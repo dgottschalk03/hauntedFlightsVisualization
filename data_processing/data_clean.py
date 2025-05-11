@@ -132,13 +132,13 @@ outDir = "../processed/"
 os.makedirs(outDir, exist_ok=True)
 
 # Feature Storage df #
-outfile = os.path.join(outDir, "hp_df2.tab") 
+outfile = os.path.join(outDir, "hp_df.tab") 
 print(f"saving to {outfile}.\nThis data is used for storing added features.")
 df.to_csv(outfile, sep = "\t", index = False)
 print("\n")
 
 # Feature Generation df #
-outfile = os.path.join(outDir, "hp_df2_cleaned.tab")
+outfile = os.path.join(outDir, "hp_df_cleaned.tab")
 print(f"saved to '{outfile}'.\nThis data is used for feature extraction.")
 df_cleaned.to_csv(outfile, sep = "\t", index = False)
 print("\n")

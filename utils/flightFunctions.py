@@ -182,6 +182,76 @@ def lat_lon_intersect(p1: [float, float], p2: [float, float], d: int) -> bool:
     dist = math.sqrt((dlon * lon_factor)**2 + (dlat * lat_factor)**2)
 
     return dist < d
+# Intersection helper function
+def calculate_intersections(row, p2s, ds):
+    '''
+    Calculate intersections between a single entry and a list of points and coresponding distances. 
+    Steps:
+    1. iterate t
+
+    Input:
+        [row]                - row of a dataframe
+        [df_x]               - dataframe of other entries ['airport_df' or 'route_df']
+
+    Returns:
+        [intersecting_idxs]  - indicies of the points that intersect with given row
+
+    NOTE: row must have 'Latitude' and 'Longitude' columns. This is bad practice for generalizability, but it works for now.
+    
+    eg: 
+    >>> calculate_intersections(hp_df.loc[1], airport_df)
+    []
+    '''
+
+    if len(p2s) != len(ds):
+        raise ValueError("p2s and ds must be same length")
+
+    intersections = []
+
+    p1 = (row['Latitude'], row['Longitude'])
+    
+    for j in range(len(p2s)):
+        p2 = p2s[j]
+        d = ds[j]
+        if isinstance(p2, tuple) and lat_lon_intersect(p1,p2, d):
+            intersections.append(j)
+        elif isinstance(p2, list) and any([lat_lon_intersect(p1, x, d) for x in p2]):
+            intersections.append(j)
+            
+    return intersections
+# Add airports used in intersecting flights #
+def add_airports_used_in_flights(hp_df, route_df, airport_df):
+    '''
+    Updates "Intersecting_Airport_Ids" column with airports used in flights specified in "Intersecting_Route_Ids".
+
+    Steps:
+        1. Iterate through haunted places
+        2. Iterate through routes in "Intersecting_Route_Ids"
+        3. Add source and destination airport IATA Codes to list
+        4. Add indicies of airports with matching IATA Codes to "Intersecting_Airport_Ids" column.
+        5. Remove Duplicates and Sort. 
+
+    Input:
+        [hp_df]         - dataframe of haunted places
+        [route_df]      - dataframe of routes
+        [airport_df]    - dataframe of airports
+
+    Returns:
+        [hp_df]         - dataframe of haunted places with updated column
+    '''
+    # iterate through haunted place ids in intersection data
+    for i in hp_df.index():
+        intersecting_airports = list(hp_df.at[i, 'Intersecting_Airport_Ids'])
+        iata_codes = []
+
+        for route in hp_df.at[i, 'Intersecting_Route_Ids']:
+            source_iata, dest_iata = route_df.at[route, "Source_Airport"], route_df.at[route, "Destination_Airport"]
+            intersecting_iata_codes.append(source_iata), intersecting_iata_codes.append(dest_iata)
+
+        airports_used_in_flights = airport_df.loc[airport_df['Iata_Code'].isin(intersecting_iata_codes)].index.tolist()
+        [intersecting_airports.append(idx) for idx in airports_used_in_flights]
+
+    return hp_df
 # Calculate Circular Path
 def generate_circle(p1: list[float, float], r : int, n : int =100) -> list[tuple]:
     '''
