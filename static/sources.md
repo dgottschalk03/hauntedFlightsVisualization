@@ -11,9 +11,9 @@ Routes are from the **OpenFlights** database. This database contains **67663 rou
 ### **[Airports.tsv](https://ourairports.com/data/)**
 Airport locations are from the **OurAirports** dataset. This is an open source database of over **40,000 airports** across the globe. 
 
-### **[Source Code](https://github.com/dgottschalk03/hauntedFlightsVisualization)**
+### **[Source Code](https://github.com/dgottschalk03/dsci_550_a1)**
 
-Detailed source code including **raw datasets**, **flight functions**, and **feature addition** can be found on at this repo.
+Detailed Jupyter Notebooks including **raw datasets**, **flight functions**, and **feature addition** can be found on at this repo.
 
 ### **[Idea]**
 
