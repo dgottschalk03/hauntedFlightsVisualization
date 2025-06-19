@@ -15,7 +15,7 @@ Airport locations are from the **OurAirports** dataset. This is an open source d
 
 Detailed Jupyter Notebooks including **raw datasets**, **flight functions**, and **feature addition** can be found on at this repo.
 
-### **[Idea]**
+### **Idea**
 
 This website was my final project for **DSCI550 - "Data Science at Scale"**. I took this course in SP25 at USC with [Dr_Chris_Mattmann](https://irds.usc.edu/faculty/mattmann/). Original repo for the assignment can be found here 👉 [dsci_550_a1](https://github.com/dgottschalk03/dsci_550_a1). 
 

@@ -12,7 +12,17 @@ import pandas as pd
 from tqdm import tqdm 
 
 # Flight Trajectory Functions #
-from dsci_550_a1.flightFunctions import *
+from utils.flightFunctions import *
+
+# Radius of influence for each airport type 
+airport_proximity_dict = {
+        "large_airport" : 55560,    # 30 nautical miles
+        "medium_airport" : 9260,    # 5 nautical miles
+        "small_airport" : 5556,     # 3 nautical miles
+        "heliport":  2778,          # 1.5 nautical miles
+        "seaplane_base" : 5556,     # 3 nautical miles
+        "balloonport" : 5556        # 3 nautical miles
+    }
 
 def load_airport_df():
     # OurAirports #
@@ -51,32 +61,24 @@ def load_airport_df():
     return airport_df
 
 def load_route_df():
-# OpenFlights #
-routes_url = "https://raw.githubusercontent.com/jpatokal/openflights/master/data/routes.dat"
-response = requests.get(routes_url)
+    # OpenFlights #
+    routes_url = "https://raw.githubusercontent.com/jpatokal/openflights/master/data/routes.dat"
+    
+    response = requests.get(routes_url)
 
-columns = ["Airline","Airline_ID","Source_Airport","Source_Airport_ID","Destination_Airport","Destination_Airport_ID","Codeshare","Stops","Equipment"]
+    columns = ["Airline","Airline_ID","Source_Airport","Source_Airport_ID","Destination_Airport","Destination_Airport_ID","Codeshare","Stops","Equipment"]
 
-route_df = pd.read_csv(StringIO(response.text), header=None, names = columns, index_col= False)
+    route_df = pd.read_csv(StringIO(response.text), header=None, names = columns, index_col= False)
 
-return route_df
+    return route_df
 
-def process_and_merge(airport_df, route_df)
+def process_and_merge(airport_df, route_df):
     '''
     Steps:
     1. Calculate Airport radius of influence "d" and circular coordinates for plot as "Airport_Radius". 
     2. Add coordinates for source and destination airports from "airport_df" using pd.merge(). 
     3. drop unused columns
     '''
-    airport_proximity_dict = {
-        "large_airport" : 55560,    # 30 nautical miles
-        "medium_airport" : 9260,    # 5 nautical miles
-        "small_airport" : 5556,     # 3 nautical miles
-        "heliport":  2778,          # 1.5 nautical miles
-        "seaplane_base" : 5556,     # 3 nautical miles
-        "balloonport" : 5556        # 3 nautical miles
-    }
-
     # Generate Interpolated Airport Radius Using `generate_circle` from `utils.flightFunctions`#
     airport_df["Airport_Radius"] = airport_df.apply(lambda row: generate_circle([row['Latitude_Deg'],row['Longitude_Deg']], r = airport_proximity_dict[row['Type']],  n = 10), axis = 1)
     airport_df['d'] = airport_df.apply(lambda row: airport_proximity_dict[row['Type']], axis = 1)
@@ -142,7 +144,7 @@ def add_flight_features(route_df, airport_df, hp_df):
     ds = list(airport_df['Type'].map(lambda x: airport_proximity_dict[x]))
     hp_df["Intersecting_Airport_Ids"] = hp_df.progress_apply(lambda x: calculate_intersections(x, p2s, ds), axis = 1)
 
-    add_airports_used_in_flights(hp_ds, route_df, airport_df) # Adding airports that are sources and destinations in routes 
+    add_airports_used_in_flights(hp_df, route_df, airport_df) # Adding airports that are sources and destinations in routes 
     print("Indicies stored in `Intersecting_Airport_Ids` column of `hp_df`")
 
 
@@ -155,7 +157,7 @@ def add_flight_features(route_df, airport_df, hp_df):
     return hp_df, route_df, airport_df   
 
 def main(hp_df):
-'''
+    '''
     Input:
         [hp_df]         - dataframe of haunted places
 
@@ -171,12 +173,9 @@ def main(hp_df):
         [Aerodrome_Proximity]       - True if at least one airport intersects with a haunted place
         [Flight_Intersection_Count] - number of routes that intersect with a haunted place
         [Flight_HighTraffic]        - True if at least 10 routes intersects with a haunted place
-'''
+    '''
     airport_df = load_airport_df()
     route_df = load_route_df()
     airport_df, route_df = process_and_merge(airport_df, route_df)
     
     return add_flight_features(hp_df, route_df, airport_df)
-
-if __name__ == "__main__":
-    main(hp_df)

@@ -21,7 +21,7 @@ app = Dash(
                     dbc.themes.DARKLY,
                     "https://use.fontawesome.com/releases/v5.15.4/css/all.css", # github icon
                     "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css",
-                    "https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css",
+                    # "https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css",
                     'https://cdn.jsdelivr.net/gh/AnnMarieW/dash-bootstrap-templates/dbc.min.css',
     ],
     # Start page in dark mode

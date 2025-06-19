@@ -5,9 +5,10 @@
     <img src="https://img.shields.io/badge/CCDS-Project%20template-328F97?logo=cookiecutter" />
 </a>
 
-Code used to transform and prepare Raw data for visualization on [website](danrobocrop.pythonanywhere.com).
-
-
+Source code used to prepare Raw data for interactive map. Click the links below to learn more :). 
+* :point_right: [website](https://danrobocrop.pythonanywhere.com/)
+* :point_right: [sources](/static/sources.md)
+* :point_right: [original assignment](/references/DSCI550_HW_BIGDATA_HAUNTED.pdf)
 ## Project Organization
 
 ```
@@ -18,20 +19,28 @@ Code used to transform and prepare Raw data for visualization on [website](danro
 ├── core                <- callbacks and buttons for dash  
 │
 ├── data
-│   ├── keywords.json        <- Keywords used in feature extraction. Used in notebooks [1.01, 1.02, 1.04, 1.05, 1.08]
+│   ├── keywords.json        <- Keywords used in feature extraction. 
 │   ├── airport_df.tab       <- airport data used in plot
 │   ├── hp_df.tab            <- route data used in plot
 │   ├── route_df.tab         <- haunted places dataset with features added
 │   ├── haunted_places.tab   <- original haunted_places dataset
 │
 ├── data_processing     <- Scripts for cleaning dataset haunted places dataset and extracting features
-│   ├── feature_extraction.py            <- Main pipeline used to add features haunted_places.tab. 
+│   ├── feature_extraction.py            <- Main pipeline used to add features haunted_places.tab.
+│   ├── data_clean.py                    <- data preprocessing 
+│   ├── airport_data_joining.py          <- joining flight and airport features
+│   ├── feature_extraction_helpers.py    <- regex and parsers used in pipeline
 |
-├── plots     <- visualization script
+├── plots               <- interactive map
 │
 ├── references          <- Original assignment from DSCI_550
 │
 ├── utils               <- utils for site and quering
+|   ├── dataLoader.py           <- loads data for dashboard 
+|   ├── flightFunctions.py      <- mathematics for flight trajectories
+|   ├── feature_extraction.py   <- optimize data for storage and query   
+|   ├── query.py                <- query logic for interactive map
+
 ```
 
 ---

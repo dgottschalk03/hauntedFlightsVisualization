@@ -17,7 +17,7 @@ def filter_used_routes_airports(hp_df, route_df, airport_df):
     return filtered_routes, filtered_airports
 
 def main(hp_df, route_df, airport_df):
-'''
+    '''
     Steps:
         1. Filter out unused columns from hp_df, airport_df, and route_df
         2. Filter out unused routes and airports to save storage
@@ -31,7 +31,7 @@ def main(hp_df, route_df, airport_df):
         './data/airport_df.tab'  - Final hp_df with features added
         './data/airport_df.tab'  - Final airport_df with features added
         './data/route_df.tab'    - Final route_df with features added    
-'''
+    '''
 
     # Columns Used
     hp_cols = ['City', 'Description', 'State', 'Location', 'Longitude' ,'Latitude', 'Audio_Evidence', 

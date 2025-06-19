@@ -1,8 +1,5 @@
 import pandas as pd
-import re 
-import time
-import json
-import datetime
+import re, os, time, json
 from tqdm import tqdm
 from number_parser import parse # https://github.com/scrapinghub/number-parser
 from feature_extraction_helpers import *
@@ -80,7 +77,7 @@ df_output["Event_Type"] = df_input["Description"].apply(lambda x: match_groups(x
 df_output["Apparition_Type"] = df_input["Description"].apply(lambda x: match_groups(x, apparition_groups))
 df_output["Time_Of_Day"] = df_input["Description"].apply(lambda x: match_groups(x, apparition_groups))
 
-df_output, airport_df, route_df = merge_airport_data(df_output, airport_df, route_df)
+df_output, airport_df, route_df = merge_airport_data(df_output)
 
 t_end = time.time()
 
